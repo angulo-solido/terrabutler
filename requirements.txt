@@ -11,5 +11,5 @@ PyYAML==6.0.1
 s3transfer==0.10.0
 schema==0.7.5
 semantic-version==2.10.0
-six==1.16.0
+six==1.17.0
 urllib3==2.0.7
