@@ -81,22 +81,23 @@ def terraform_command_runner(command, site, args=[], options=[],
     command = terraform_command_builder(command, site, args=args,
                                         options=options,
                                         needed_options=needed_options)
+
+    prev_sigint_handler = signal.getsignal(signal.SIGINT)
     try:
         p = subprocess.Popen(args=command, cwd=site_dir)
+        signal.signal(signal.SIGINT, signal.SIG_IGN)  # ignore on python thread
         p.wait()
 
         if p.returncode != 0:
             print(Fore.RED + "There was an error while running the terraform"
                   " command.")
             exit(1)
-    except KeyboardInterrupt:
-        p.send_signal(signal.SIGINT)
-        p.wait()
-        exit(p.returncode)
     except subprocess.CalledProcessError:
         print(Fore.RED + f"There was an error while doing the {command}"
               f" command inside the '{site}' site in '{env}' environment.")
         exit(1)
+    finally:
+        signal.signal(signal.SIGINT, prev_sigint_handler)
 
 
 def terraform_destroy_all_sites():

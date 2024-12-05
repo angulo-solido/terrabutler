@@ -56,7 +56,7 @@ apply_env () {
 check_preexisting_install () {
   if [ -d "$INSTALL_DIR" ] && [ -f "$BIN_FILE" ]; then
     echo "Found preexisting Terrabutler installation: $INSTALL_DIR."
-    
+
     if [ "${FORCE_INSTALL:-no}" == "yes" ] ; then
         echo "Replacing preexisting Terrabutler installation (FORCE_INSTALL=yes)"
         rm -rf "$INSTALL_DIR" "$BIN_FILE"
